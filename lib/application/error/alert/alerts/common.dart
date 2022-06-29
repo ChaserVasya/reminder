@@ -1,4 +1,4 @@
-import 'content.dart';
+import '../content.dart';
 
 /*
 For unknown firebase error codes. Firebase hasn`t complete code docs. I had to
@@ -11,7 +11,8 @@ class UnhandledAlert implements AlertDialogContent {
   @override
   final String titleForUser = 'Необработанная ошибка';
   @override
-  final String textForUser = 'Сведения об ошибке будут отправлены на сервер для исправления в следующих версиях.';
+  final String textForUser =
+      'Сведения об ошибке будут отправлены на сервер для исправления в следующих версиях.';
   @override
   final String? details;
   @override
@@ -28,7 +29,8 @@ class DevErrorAlert implements AlertDialogContent {
   @override
   final String titleForUser = 'Программная ошибка';
   @override
-  final String textForUser = 'Сведения об ошибке будут отправлены на сервер для исправления в следующих версиях.';
+  final String textForUser =
+      'Сведения об ошибке будут отправлены на сервер для исправления в следующих версиях.';
   @override
   final String? details = null;
   @override

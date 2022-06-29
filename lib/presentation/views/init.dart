@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:reminder/application/injection.dart';
+import 'package:reminder/presentation/views/plug.dart';
 
 class InitPage extends StatefulWidget {
   const InitPage({Key? key}) : super(key: key);
@@ -23,15 +25,14 @@ class _InitPageState extends State<InitPage> {
     setState(() => inited = true);
   }
 
+  Future<void> removeSplash() async {
+    FlutterNativeSplash.remove();
+    await Future(() => Navigator.pushReplacementNamed(context, "/tasks"));
+  }
+
   @override
   Widget build(BuildContext context) {
-    if (inited)
-      Future.microtask(
-          () => Navigator.pushReplacementNamed(context, "/arrival"));
-    return const Scaffold(
-      body: Center(
-        child: CircularProgressIndicator(),
-      ),
-    );
+    if (inited) removeSplash();
+    return const Plug();
   }
 }

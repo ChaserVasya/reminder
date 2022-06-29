@@ -1,9 +1,8 @@
-import 'package:reminder/domain/entities/reminder.dart';
-
 class Task {
-  final Reminder? reminder;
+  final int id;
   final String content;
+  final DateTime? reminder;
   final bool isCompleted;
 
-  Task(this.content, [this.reminder, this.isCompleted = false]);
+  const Task(this.id, this.content, [this.reminder, this.isCompleted = false]);
 }

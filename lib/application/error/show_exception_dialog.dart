@@ -1,12 +1,14 @@
-import 'package:flight_schedule/presentation/error_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:reminder/presentation/views/error_dialog.dart';
 
 import 'alert/content.dart';
 
 final navigatorKey = GlobalKey<NavigatorState>();
 
+NavigatorState get navigator => navigatorKey.currentState!;
+
 void showExceptionDialog(AlertDialogContent content) {
-  WidgetsBinding.instance?.addPostFrameCallback((_) => showDialog(
+  WidgetsBinding.instance.addPostFrameCallback((_) => showDialog(
         context: navigatorKey.currentContext!,
         builder: (context) => ExceptionDialog(context, content),
       ));
