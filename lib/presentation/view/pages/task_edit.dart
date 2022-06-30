@@ -6,6 +6,7 @@ import 'package:reminder/presentation/view/templates/task_details/date_time_fiel
 import 'package:reminder/presentation/view/templates/task_details/is_completed_box.dart';
 import 'package:reminder/presentation/view_model/task_edit.dart';
 import 'package:reminder/presentation/view/plug.dart';
+import 'package:reminder/presentation/view_model/tasks.dart';
 
 import 'templates/page_content_form.dart';
 
@@ -25,16 +26,24 @@ class TaskEditPage extends StatelessWidget {
             case Status.sync:
               return const Plug();
             case Status.synced:
+              final viewModel = context.watch<TaskEditViewModel>();
+              final incorrectContent = viewModel.contentIsEmpty;
               return Scaffold(
                 appBar: AppBar(
                   title: const Text("Редактирование задачи"),
                   actions: [
                     TextButton(
                       onPressed: () async {
-                        // final tasksViewModel = context.read<TasksViewModel>();
-                        await context.read<TaskEditViewModel>().editTask();
-                        navigator.pop();
-                        // await tasksViewModel.sync();
+                        final tasksViewModel = context.read<TasksViewModel>();
+                        if (context.read<TaskEditViewModel>().controller.text == "") {
+                          context.read<TaskEditViewModel>().contentIsEmpty = true;
+                          return;
+                        } else {
+                          context.read<TaskEditViewModel>().contentIsEmpty = false;
+                          await context.read<TaskEditViewModel>().editTask();
+                          await tasksViewModel.sync();
+                          navigator.pop();
+                        }
                       },
                       child: Text(
                         "Сохранить",

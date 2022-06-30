@@ -14,6 +14,7 @@ class TaskEditViewModel extends TaskViewModel {
   TaskEditViewModel.from(Task task) {
     id = task.id;
     controller = TextEditingController(text: task.content);
+    contentIsEmpty = task.content == "";
     isCompleted = task.isCompleted;
 
     final dateTime = task.reminder;
@@ -28,20 +29,19 @@ class TaskEditViewModel extends TaskViewModel {
   Status status = Status.sync;
 
   Future<void> refreshWith(Task task) async {
-    await Future.value(); //TODO remove trick
-
     controller.text = task.content;
-    isCompleted = task.isCompleted;
+    contentIsEmptySilently = task.content == "";
+    isCompletedSilently = task.isCompleted;
 
     final dateTime = task.reminder;
 
     if (dateTime != null) {
-      needToRemind = true;
-      time = TimeOfDay.fromDateTime(dateTime);
-      date = DateTime(dateTime.year, dateTime.month, dateTime.day);
+      needToRemindSilently = true;
+      timeSilently = TimeOfDay.fromDateTime(dateTime);
+      dateSilently = DateTime(dateTime.year, dateTime.month, dateTime.day);
     }
 
-    Future(() => notifyListeners()); //TODO refactor this
+    Future(() => notifyListeners());
   }
 
   Future<void> fetchTask() async {
@@ -53,6 +53,7 @@ class TaskEditViewModel extends TaskViewModel {
     final task = await _repo.get(id);
 
     controller = TextEditingController(text: task.content);
+    contentIsEmpty = task.content == "";
     isCompleted = task.isCompleted;
 
     final dateTime = task.reminder;
@@ -72,6 +73,12 @@ class TaskEditViewModel extends TaskViewModel {
     notifyListeners();
 
     final content = controller.text;
+
+    if (content == "") {
+      contentIsEmpty = true;
+      return;
+    }
+
     final reminder = (needToRemind) ? DateTimeFactory.from(date, time) : null;
     final task = Task(id, content, reminder, isCompleted);
 

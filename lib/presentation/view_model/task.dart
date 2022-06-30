@@ -4,6 +4,14 @@ abstract class TaskViewModel extends ChangeNotifier {
   //CONTENT
 
   TextEditingController controller = TextEditingController();
+  bool _contentIsEmpty = true;
+  bool get contentIsEmpty => _contentIsEmpty;
+  set contentIsEmpty(bool value) {
+    _contentIsEmpty = value;
+    notifyListeners();
+  }
+
+  set contentIsEmptySilently(bool value) => _contentIsEmpty = value;
 
   //IS COMPLETED
 
@@ -13,6 +21,8 @@ abstract class TaskViewModel extends ChangeNotifier {
     _isCompleted = value;
     notifyListeners();
   }
+
+  set isCompletedSilently(bool value) => _isCompleted = value;
 
   //DATETIME
 
@@ -27,6 +37,8 @@ abstract class TaskViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  set dateSilently(DateTime value) => _date = value;
+
   TimeOfDay? _time;
   TimeOfDay get time => _time ??= createDefaultTime();
   set time(TimeOfDay newTime) {
@@ -34,12 +46,21 @@ abstract class TaskViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  set timeSilently(TimeOfDay value) => _time = value;
+
   bool _needToRemind = false;
   bool get needToRemind => _needToRemind;
   set needToRemind(bool value) {
     _needToRemind = value;
     notifyListeners();
   }
+
+  set needToRemindSilently(bool value) => _needToRemind = value;
+}
+
+enum TextStatus {
+  right,
+  wrong,
 }
 
 enum Status {

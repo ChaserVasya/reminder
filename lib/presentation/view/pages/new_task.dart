@@ -21,6 +21,7 @@ class NewTaskPage extends StatelessWidget {
           case Status.sync:
             return const Plug();
           case Status.synced:
+            final incorrectContent = context.watch<NewTaskViewModel>().contentIsEmpty;
             return Scaffold(
               appBar: AppBar(
                 title: const Text("Новая задача"),
@@ -28,9 +29,15 @@ class NewTaskPage extends StatelessWidget {
                   TextButton(
                     onPressed: () async {
                       final tasksViewModel = context.read<TasksViewModel>();
-                      await context.read<NewTaskViewModel>().setTask();
-                      await tasksViewModel.sync();
-                      navigator.pop();
+                      if (context.read<NewTaskViewModel>().controller.text == "") {
+                        context.read<NewTaskViewModel>().contentIsEmpty = true;
+                        return;
+                      } else {
+                        context.read<NewTaskViewModel>().contentIsEmpty = false;
+                        await context.read<NewTaskViewModel>().setTask();
+                        await tasksViewModel.sync();
+                        navigator.pop();
+                      }
                     },
                     child: Text(
                       "Создать",

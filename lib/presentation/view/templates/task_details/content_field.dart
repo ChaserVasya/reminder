@@ -14,11 +14,20 @@ class ContentField<T extends TaskViewModel> extends StatelessWidget {
         DecoratedBox(
           decoration: BoxDecoration(
             border: Border.all(
-              color: Colors.blue[500]!,
+              color: context.watch<T>().contentIsEmpty ? Colors.red[500]! : Colors.blue[500]!,
             ),
             borderRadius: BorderRadius.circular(10),
           ),
-          child: TextField(
+          child: TextFormField(
+            validator: (str) {
+              final isEmpty = (str == null) || (str == "");
+              if (isEmpty) {
+                context.watch<T>().contentIsEmpty = true;
+                return "Введите текст!";
+              } else
+                context.watch<T>().contentIsEmpty = false;
+              return null;
+            },
             controller: context.read<T>().controller,
             keyboardType: TextInputType.multiline,
             maxLines: null,

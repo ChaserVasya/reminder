@@ -10,11 +10,8 @@ class DateTimeField<T extends TaskViewModel> extends StatelessWidget {
   Widget build(BuildContext context) {
     final viewModel = context.watch<T>();
 
-    final date = viewModel.date;
-    final time = viewModel.time;
-
-    final dateText = DateFormat.yMd().format(date.toLocal());
-    final timeText = time.format(context);
+    final dateText = DateFormat.yMd().format(viewModel.date.toLocal());
+    final timeText = viewModel.time.format(context);
 
     final needToRemindBox = Row(
       children: [
