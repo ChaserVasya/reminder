@@ -21,34 +21,38 @@ class TaskEditPage extends StatelessWidget {
       create: (_) => TaskEditViewModel(id),
       builder: (context, _) => FutureBuilder(
         future: context.read<TaskEditViewModel>().fetchTask(),
-        builder: (context, _) {
-          switch (context.watch<TaskEditViewModel>().status) {
-            case Status.sync:
+        builder: (context, snap) {
+          switch (snap.connectionState) {
+            case ConnectionState.active:
+            case ConnectionState.none:
+            case ConnectionState.waiting:
               return const Plug();
-            case Status.synced:
-              final viewModel = context.watch<TaskEditViewModel>();
-              final incorrectContent = viewModel.contentIsEmpty;
+            case ConnectionState.done:
               return Scaffold(
                 appBar: AppBar(
                   title: const Text("Редактирование"),
                   actions: [
-                    TextButton(
-                      onPressed: () async {
-                        final tasksViewModel = context.read<TasksViewModel>();
-                        if (context.read<TaskEditViewModel>().controller.text == "") {
-                          context.read<TaskEditViewModel>().contentIsEmpty = true;
-                          return;
-                        } else {
-                          context.read<TaskEditViewModel>().contentIsEmpty = false;
-                          await context.read<TaskEditViewModel>().editTask();
-                          await tasksViewModel.sync();
-                          navigator.pop();
-                        }
+                    Builder(
+                      builder: (context) {
+                        final editViewModel = context.watch<TaskEditViewModel>();
+                        return TextButton(
+                          onPressed: (editViewModel.contentIsEmpty)
+                              ? null
+                              : () async {
+                                  final tasksViewModel = context.read<TasksViewModel>();
+                                  await editViewModel.editTask();
+                                  await tasksViewModel.sync();
+                                  navigator.pop();
+                                },
+                          child: Text(
+                            "Сохранить",
+                            style: TextStyle(
+                                color: (editViewModel.contentIsEmpty)
+                                    ? Colors.white54
+                                    : Theme.of(context).canvasColor),
+                          ),
+                        );
                       },
-                      child: Text(
-                        "Сохранить",
-                        style: TextStyle(color: Theme.of(context).canvasColor),
-                      ),
                     ),
                   ],
                 ),

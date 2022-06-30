@@ -7,6 +7,7 @@ class ContentField<T extends TaskViewModel> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final viewModel = context.watch<T>();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -14,21 +15,22 @@ class ContentField<T extends TaskViewModel> extends StatelessWidget {
         DecoratedBox(
           decoration: BoxDecoration(
             border: Border.all(
-              color: context.watch<T>().contentIsEmpty ? Colors.red[500]! : Colors.blue[500]!,
+              color: viewModel.contentIsEmpty ? Colors.red[500]! : Colors.blue[500]!,
             ),
             borderRadius: BorderRadius.circular(10),
           ),
           child: TextFormField(
+            autovalidateMode: AutovalidateMode.onUserInteraction,
             validator: (str) {
               final isEmpty = (str == null) || (str == "");
               if (isEmpty) {
-                context.watch<T>().contentIsEmpty = true;
+                viewModel.contentIsEmpty = true;
                 return "Введите текст!";
               } else
-                context.watch<T>().contentIsEmpty = false;
+                viewModel.contentIsEmpty = false;
               return null;
             },
-            controller: context.read<T>().controller,
+            controller: viewModel.controller,
             keyboardType: TextInputType.multiline,
             maxLines: null,
             autofocus: true,

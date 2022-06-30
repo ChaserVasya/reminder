@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:reminder/presentation/view_model/task_edit.dart';
 
 class CardContent extends StatelessWidget {
-  const CardContent({Key? key}) : super(key: key);
+  const CardContent(this.text, {Key? key}) : super(key: key);
+
+  final String text;
 
   @override
   Widget build(BuildContext context) {
-    return Text(
-      context.watch<TaskEditViewModel>().controller.text,
-    );
+    return Text(text);
   }
 }

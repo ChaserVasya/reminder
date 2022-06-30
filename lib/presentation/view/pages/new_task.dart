@@ -17,31 +17,30 @@ class NewTaskPage extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (_) => NewTaskViewModel(),
       builder: (context, _) {
-        switch (context.watch<NewTaskViewModel>().status) {
+        final createViewModel = context.watch<NewTaskViewModel>();
+        switch (createViewModel.status) {
           case Status.sync:
             return const Plug();
           case Status.synced:
-            final incorrectContent = context.watch<NewTaskViewModel>().contentIsEmpty;
             return Scaffold(
               appBar: AppBar(
                 title: const Text("Новая задача"),
                 actions: [
                   TextButton(
-                    onPressed: () async {
-                      final tasksViewModel = context.read<TasksViewModel>();
-                      if (context.read<NewTaskViewModel>().controller.text == "") {
-                        context.read<NewTaskViewModel>().contentIsEmpty = true;
-                        return;
-                      } else {
-                        context.read<NewTaskViewModel>().contentIsEmpty = false;
-                        await context.read<NewTaskViewModel>().setTask();
-                        await tasksViewModel.sync();
-                        navigator.pop();
-                      }
-                    },
+                    onPressed: (createViewModel.contentIsEmpty)
+                        ? null
+                        : () async {
+                            final tasksViewModel = context.read<TasksViewModel>();
+                            await createViewModel.setTask();
+                            await tasksViewModel.sync();
+                            navigator.pop();
+                          },
                     child: Text(
                       "Создать",
-                      style: TextStyle(color: Theme.of(context).canvasColor),
+                      style: TextStyle(
+                          color: (createViewModel.contentIsEmpty)
+                              ? Colors.white54
+                              : Theme.of(context).canvasColor),
                     ),
                   ),
                 ],

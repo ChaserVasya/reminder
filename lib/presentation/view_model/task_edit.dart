@@ -54,6 +54,8 @@ class TaskEditViewModel extends TaskViewModel {
     final task = await _repo.get(id);
 
     controller = TextEditingController(text: task.content);
+    controller.addListener(() => Future(notifyListeners));
+
     contentIsEmpty = task.content == "";
     isCompleted = task.isCompleted;
 

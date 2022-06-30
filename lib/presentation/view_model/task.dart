@@ -8,7 +8,7 @@ abstract class TaskViewModel extends ChangeNotifier {
   bool get contentIsEmpty => _contentIsEmpty;
   set contentIsEmpty(bool value) {
     _contentIsEmpty = value;
-    notifyListeners();
+    Future(() => notifyListeners());
   }
 
   set contentIsEmptySilently(bool value) => _contentIsEmpty = value;
@@ -19,7 +19,7 @@ abstract class TaskViewModel extends ChangeNotifier {
   bool get isCompleted => _isCompleted;
   set isCompleted(bool value) {
     _isCompleted = value;
-    notifyListeners();
+    Future(() => notifyListeners());
   }
 
   set isCompletedSilently(bool value) => _isCompleted = value;
@@ -34,7 +34,7 @@ abstract class TaskViewModel extends ChangeNotifier {
   DateTime get date => _date ??= createDefaultDate();
   set date(DateTime newDate) {
     _date = newDate;
-    notifyListeners();
+    Future(() => notifyListeners());
   }
 
   set dateSilently(DateTime value) => _date = value;
@@ -43,7 +43,7 @@ abstract class TaskViewModel extends ChangeNotifier {
   TimeOfDay get time => _time ??= createDefaultTime();
   set time(TimeOfDay newTime) {
     _time = newTime;
-    notifyListeners();
+    Future(() => notifyListeners());
   }
 
   set timeSilently(TimeOfDay value) => _time = value;
@@ -52,7 +52,7 @@ abstract class TaskViewModel extends ChangeNotifier {
   bool get needToRemind => _needToRemind;
   set needToRemind(bool value) {
     _needToRemind = value;
-    notifyListeners();
+    Future(() => notifyListeners());
   }
 
   set needToRemindSilently(bool value) => _needToRemind = value;
