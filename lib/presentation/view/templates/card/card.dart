@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:reminder/domain/entity/task.dart';
 import 'package:reminder/presentation/view_model/task_edit.dart';
-import 'package:reminder/presentation/view_model/tasks.dart';
 
 import 'parts/content.dart';
-import 'parts/is_completed_button.dart';
+import 'parts/is_completed_box.dart';
 import 'parts/menu.dart';
 
 class TaskCard extends StatelessWidget {
@@ -15,9 +14,6 @@ class TaskCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print("card id: ${task.id}");
-    if (task.id == 1) print("text: ${task.content}");
-
     return Card(
       child: ChangeNotifierProvider<TaskEditViewModel>(
           create: (_) => TaskEditViewModel.from(task),
@@ -26,7 +22,7 @@ class TaskCard extends StatelessWidget {
             context.read<TaskEditViewModel>().refreshWith(task);
             return Row(
               children: const [
-                IsCompletedButton(),
+                IsCompletedBox(),
                 CardContent(),
                 Spacer(),
                 ActionMenu(),

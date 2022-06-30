@@ -1,30 +1,30 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:reminder/application/error/show_exception_dialog.dart';
 import 'package:reminder/presentation/view_model/tasks.dart';
 
-Future<void> deleteTaskScenario(BuildContext context, int id) async {
-  final viewModel = context.read<TasksViewModel>();
+Future<void> deleteTaskScenario(TasksViewModel tasksViewModel, int id) async {
+  await Future.value(); //TODO Without it dialog can`t be shown. Why?
 
   final delete = await showDialog<bool>(
-    context: context,
-    builder: (context) => DeleteDialog(context),
+    context: navigator.context,
+    builder: (_) => DeleteDialog(),
   );
 
-  if (delete ?? false) await viewModel.delete(id);
+  if (delete ?? false) await tasksViewModel.delete(id);
 }
 
 class DeleteDialog extends AlertDialog {
-  DeleteDialog(BuildContext context, {Key? key})
+  DeleteDialog({Key? key})
       : super(
           key: key,
           title: const Text("Удалить задачу?"),
           actions: [
             TextButton(
-              onPressed: () => Navigator.pop(context, false),
+              onPressed: () => navigator.pop(false),
               child: const Text('Отменить'),
             ),
             TextButton(
-              onPressed: () => Navigator.pop(context, true),
+              onPressed: () => navigator.pop(true),
               child: const Text('Продолжить'),
             ),
           ],

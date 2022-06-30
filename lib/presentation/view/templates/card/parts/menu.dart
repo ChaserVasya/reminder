@@ -10,7 +10,8 @@ class ActionMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final id = context.read<TaskEditViewModel>().id;
+    final taskViewModel = context.read<TaskEditViewModel>();
+    final tasksViewModel = context.read<TasksViewModel>();
 
     return PopupMenuButton(
       itemBuilder: (context) => [
@@ -20,15 +21,18 @@ class ActionMenu extends StatelessWidget {
           onPressed: () {
             //TODO Page cannot be pushed without [addPostFrameCallback]. Why?
             final callback = (_) => navigator
-                .pushNamed("/task_edit", arguments: id)
-                .then((_) => context.read<TasksViewModel>().sync());
+                .pushNamed("/task_edit", arguments: taskViewModel.id)
+                .then((_) => tasksViewModel.sync());
             WidgetsBinding.instance.addPostFrameCallback(callback);
           },
         ),
         ActionMenuItem(
           iconData: Icons.delete,
           text: "Удалить",
-          onPressed: () => deleteTaskScenario(context, id),
+          onPressed: () async {
+            await deleteTaskScenario(tasksViewModel, taskViewModel.id);
+            await tasksViewModel.sync();
+          },
         ),
       ],
     );
