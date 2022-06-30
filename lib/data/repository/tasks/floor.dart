@@ -38,7 +38,22 @@ class FloorTasksRepo implements TasksRepo {
   @override
   Future<void> update(Task task) async {
     await _db.taskDao.updateTask(TaskMapper.toPlainTask(task));
-    await _notifications.delete(task);
-    await _notifications.schedule(task);
+
+    final oldTask = (await _db.taskDao.findById(task.id))!;
+
+    final needRemoveReminder = (oldTask.reminder != null) && (task.reminder == null);
+    final needAddReminder = (oldTask.reminder == null) && (task.reminder != null);
+    final maybeNeedUpdateReminder = (oldTask.reminder != null) && (task.reminder != null);
+
+    if (needRemoveReminder) {
+      await _notifications.delete(task);
+    } else if (needAddReminder) {
+      await _notifications.schedule(task);
+    } else if (maybeNeedUpdateReminder) {
+      final newPlainTask = TaskMapper.toPlainTask(task);
+      if (oldTask.reminder == newPlainTask.reminder) return;
+      await _notifications.delete(task);
+      await _notifications.schedule(task);
+    }
   }
 }

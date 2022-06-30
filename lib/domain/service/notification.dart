@@ -1,5 +1,6 @@
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:reminder/domain/entity/task.dart';
+import 'package:timezone/data/latest.dart';
 import 'package:timezone/timezone.dart';
 
 class NotificationService {
@@ -21,8 +22,6 @@ class NotificationService {
   Future<void> schedule(Task task) async {
     final tzDateTime = TZDateTime.from(task.reminder!, local);
 
-    print(tzDateTime.toLocal());
-
     await _plugin.zonedSchedule(
       task.id,
       "Напоминание",
@@ -41,5 +40,8 @@ class NotificationService {
 
   Future<void> init() async {
     await _plugin.initialize(_settings);
+    initializeTimeZones();
+    var vdk = getLocation("Asia/Vladivostok");
+    setLocalLocation(vdk);
   }
 }

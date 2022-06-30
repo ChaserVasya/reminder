@@ -9,6 +9,7 @@ class TaskIdGenerator {
   Future<int> generate() async {
     final tasks = await _repo.getAll();
 
+    if (tasks.isEmpty) return 1;
     var maxId = tasks.map((e) => e.id).reduce(max);
 
     return ++maxId;

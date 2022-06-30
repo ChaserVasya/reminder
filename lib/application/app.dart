@@ -16,6 +16,7 @@ class App extends StatelessWidget {
         ChangeNotifierProvider<TasksViewModel>(create: (_) => TasksViewModel()),
       ],
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         title: 'Reminder',
         routes: routes,
         initialRoute: "/init",

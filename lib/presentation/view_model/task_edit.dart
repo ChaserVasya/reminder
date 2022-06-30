@@ -3,6 +3,7 @@ import 'package:get_it/get_it.dart';
 import 'package:reminder/data/utils/date_time.dart';
 import 'package:reminder/domain/entity/task.dart';
 import 'package:reminder/domain/repository/tasks.dart';
+import 'package:reminder/domain/service/date_time_utils.dart';
 import 'package:reminder/presentation/view_model/task.dart';
 
 // TODO can I notifyListeners from constructor? Several times?
@@ -79,7 +80,8 @@ class TaskEditViewModel extends TaskViewModel {
       return;
     }
 
-    final reminder = (needToRemind) ? DateTimeFactory.from(date, time) : null;
+    var reminder =
+        (needToRemind) ? DateTimeUtils.toNearestNotifiable(DateTimeFactory.from(date, time)) : null;
     final task = Task(id, content, reminder, isCompleted);
 
     await _repo.update(task);
