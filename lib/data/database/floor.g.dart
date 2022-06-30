@@ -143,7 +143,7 @@ class _$TaskDao extends TaskDao {
 
   @override
   Future<List<PlainTask>> findAll() async {
-    return _queryAdapter.queryList('SELECT * FROM Task',
+    return _queryAdapter.queryList('SELECT * FROM PlainTask',
         mapper: (Map<String, Object?> row) => PlainTask(
             row['id'] as int,
             row['content'] as String,
@@ -153,7 +153,7 @@ class _$TaskDao extends TaskDao {
 
   @override
   Future<PlainTask?> findById(int id) async {
-    return _queryAdapter.query('SELECT * FROM Task WHERE id = ?1',
+    return _queryAdapter.query('SELECT * FROM PlainTask WHERE id = ?1',
         mapper: (Map<String, Object?> row) => PlainTask(
             row['id'] as int,
             row['content'] as String,

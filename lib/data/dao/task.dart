@@ -3,10 +3,10 @@ import 'package:reminder/data/entity/task.dart';
 
 @dao
 abstract class TaskDao {
-  @Query('SELECT * FROM Task')
+  @Query('SELECT * FROM PlainTask')
   Future<List<PlainTask>> findAll();
 
-  @Query('SELECT * FROM Task WHERE id = :id')
+  @Query('SELECT * FROM PlainTask WHERE id = :id')
   Future<PlainTask?> findById(int id);
 
   @insert

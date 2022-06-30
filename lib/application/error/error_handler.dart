@@ -9,8 +9,11 @@ class ErrorHandler {
   }
 
   static Future<void> onZoneError(Object e, [StackTrace? s]) async {
-    final alert = switchExceptionAlert(e);
-    showExceptionDialog(alert);
+    print("=======ERROR=======");
+    print(e);
+    print("=======/ERROR=======");
+    // final alert = switchExceptionAlert(e);
+    // showExceptionDialog(alert);
   }
 
   static Widget errorWidgetBuilder(FlutterErrorDetails details) {

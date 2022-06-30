@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:reminder/domain/scenario/delete.dart';
 import 'package:reminder/presentation/view_model/tasks.dart';
 import 'package:reminder/presentation/view/plug.dart';
 import 'package:reminder/presentation/view/templates/card/card.dart';
@@ -13,13 +12,15 @@ class TasksPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => Navigator.of(context).pushNamed("/new_task"),
-        child: const Icon(Icons.add),
-      ),
-      appBar: AppBar(
-        title: const Text("Задачи"),
-      ),
+      appBar: AppBar(title: const Text("Задачи"), actions: [
+        TextButton(
+          onPressed: () => Navigator.of(context).pushNamed("/new_task"),
+          child: const Icon(
+            Icons.add,
+            color: Colors.white,
+          ),
+        ),
+      ]),
       body: PageContentForm(
         child: FutureBuilder(
           future: context.read<TasksViewModel>().sync(),

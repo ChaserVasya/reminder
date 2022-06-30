@@ -21,6 +21,8 @@ class NotificationService {
   Future<void> schedule(Task task) async {
     final tzDateTime = TZDateTime.from(task.reminder!, local);
 
+    print(tzDateTime.toLocal());
+
     await _plugin.zonedSchedule(
       task.id,
       "Напоминание",
@@ -31,6 +33,10 @@ class NotificationService {
           UILocalNotificationDateInterpretation.wallClockTime, //I dont use Ios.
       androidAllowWhileIdle: true,
     );
+  }
+
+  Future<void> delete(Task task) async {
+    await _plugin.cancel(task.id);
   }
 
   Future<void> init() async {

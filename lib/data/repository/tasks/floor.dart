@@ -5,14 +5,17 @@ import 'package:reminder/domain/entity/task.dart';
 import 'package:reminder/domain/repository/tasks.dart';
 
 import 'package:floor/floor.dart';
+import 'package:reminder/domain/service/notification.dart';
 
 @dao
 class FloorTasksRepo implements TasksRepo {
   final _db = GetIt.I.get<AppDatabase>();
+  final _notifications = GetIt.I.get<NotificationService>();
 
   @override
   Future<void> delete(Task task) async {
     await _db.taskDao.deleteTask(TaskMapper.toPlainTask(task));
+    await _notifications.delete(task);
   }
 
   @override
@@ -29,10 +32,13 @@ class FloorTasksRepo implements TasksRepo {
   @override
   Future<void> insert(Task task) async {
     await _db.taskDao.insertTask(TaskMapper.toPlainTask(task));
+    await _notifications.schedule(task);
   }
 
   @override
   Future<void> update(Task task) async {
     await _db.taskDao.updateTask(TaskMapper.toPlainTask(task));
+    await _notifications.delete(task);
+    await _notifications.schedule(task);
   }
 }
