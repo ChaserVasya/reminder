@@ -30,7 +30,7 @@ class TaskEditPage extends StatelessWidget {
               final incorrectContent = viewModel.contentIsEmpty;
               return Scaffold(
                 appBar: AppBar(
-                  title: const Text("Редактирование задачи"),
+                  title: const Text("Редактирование"),
                   actions: [
                     TextButton(
                       onPressed: () async {

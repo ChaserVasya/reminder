@@ -42,7 +42,7 @@ class _TaskCardState extends State<TaskCard> {
             final tasksViewModel = context.watch<TasksViewModel>();
             final task = tasksViewModel.tasks.singleWhere((e) => e.id == widget.task.id);
             if (task.reminder != null) {
-              final dateText = DateFormat.yMd().add_jm().format(task.reminder!.toLocal());
+              final dateText = DateFormat.yMd().add_Hm().format(task.reminder!.toLocal());
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

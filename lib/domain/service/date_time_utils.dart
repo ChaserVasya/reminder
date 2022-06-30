@@ -4,6 +4,6 @@ class DateTimeUtils {
 
     if (reminder.isAfter(now)) return reminder;
 
-    return reminder.add(const Duration(minutes: 1));
+    return now.add(const Duration(minutes: 1));
   }
 }
