@@ -1,0 +1,4 @@
+flutter_icons:
+  image_path: "assets/images/logo.png"
+  android: true # can specify file name here e.g. "ic_launcher"
+  adaptive_icon_foreground: "assets/images/logo.png" # only available for Android 8.0 devices and above
