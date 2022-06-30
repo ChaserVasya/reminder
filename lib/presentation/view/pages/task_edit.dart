@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:reminder/presentation/view_models/task_edit.dart';
-import 'package:reminder/presentation/view_models/tasks.dart';
-import 'package:reminder/presentation/views/plug.dart';
+import 'package:reminder/application/error/show_exception_dialog.dart';
+import 'package:reminder/presentation/view_model/task_edit.dart';
+import 'package:reminder/presentation/view_model/tasks.dart';
+import 'package:reminder/presentation/view/plug.dart';
 
 import 'templates/page_content_form.dart';
 
@@ -20,13 +21,9 @@ class TaskEditPage extends StatelessWidget {
         future: context.read<TaskEditViewModel>().fetchTask(),
         builder: (context, _) {
           switch (context.watch<TaskEditViewModel>().status) {
-            case Status.fetching:
-            case Status.editing:
+            case Status.sync:
               return const Plug();
-            case Status.edited:
-              Future(() => Navigator.pop(context));
-              return const Plug();
-            case Status.fetched:
+            case Status.synced:
               return Scaffold(
                 appBar: AppBar(
                   automaticallyImplyLeading: false,
@@ -34,9 +31,10 @@ class TaskEditPage extends StatelessWidget {
                   actions: [
                     TextButton(
                       onPressed: () async {
-                        final tasksViewModel = context.read<TasksViewModel>();
+                        // final tasksViewModel = context.read<TasksViewModel>();
                         await context.read<TaskEditViewModel>().editTask();
-                        await tasksViewModel.sync();
+                        navigator.pop();
+                        // await tasksViewModel.sync();
                       },
                       child: Text(
                         "Сохранить",
@@ -122,13 +120,10 @@ class DateTimeField extends StatefulWidget {
 
 //TODO Refactor. Think about reminder adding logic.
 class _DateTimeFieldState extends State<DateTimeField> {
-  final DateTime defaultDate = DateTime.now().add(const Duration(minutes: 1));
-  late final TimeOfDay defaultTime = TimeOfDay.fromDateTime(defaultDate);
-
   @override
   Widget build(BuildContext context) {
-    final date = context.watch<TaskEditViewModel>().date ?? defaultDate;
-    final time = context.watch<TaskEditViewModel>().time ?? defaultTime;
+    final date = context.watch<TaskEditViewModel>().date;
+    final time = context.watch<TaskEditViewModel>().time;
 
     final dateText = DateFormat.yMd().format(date.toLocal());
     final timeText = time.format(context);

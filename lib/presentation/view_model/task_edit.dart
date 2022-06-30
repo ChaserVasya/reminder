@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:reminder/data/utils/date_time.dart';
-import 'package:reminder/domain/entities/task.dart';
-import 'package:reminder/domain/repositories/tasks.dart';
+import 'package:reminder/domain/entity/task.dart';
+import 'package:reminder/domain/repository/tasks.dart';
 
 // TODO can i notifyListeners from constructor? Several times?
 class TaskEditViewModel extends ChangeNotifier {
   final _repo = GetIt.I.get<TasksRepo>();
   late final int id;
+
+  //They are implemented as callbacks to always take the actual time
+  final createDefaultDate = () => DateTime.now().add(const Duration(minutes: 1));
+  late final createDefaultTime = () => TimeOfDay.fromDateTime(createDefaultDate());
 
   TaskEditViewModel(this.id);
   TaskEditViewModel.from(Task task) {
@@ -21,10 +25,10 @@ class TaskEditViewModel extends ChangeNotifier {
     _date = dateTime;
     _time = TimeOfDay.fromDateTime(dateTime);
 
-    status = Status.fetched;
+    status = Status.synced;
   }
 
-  Status status = Status.fetching;
+  Status status = Status.sync;
 
   late final TextEditingController controller;
   DateTime? _date;
@@ -50,7 +54,7 @@ class TaskEditViewModel extends ChangeNotifier {
   Future<void> fetchTask() async {
     await Future.value(); //TODO check how to do ALL function asyncly.
 
-    status = Status.fetching;
+    status = Status.sync;
     notifyListeners();
 
     final task = await _repo.get(id);
@@ -66,12 +70,12 @@ class TaskEditViewModel extends ChangeNotifier {
       _date = DateTime(dateTime.year, dateTime.month, dateTime.day);
     }
 
-    status = Status.fetched;
+    status = Status.synced;
     notifyListeners();
   }
 
   Future<void> editTask() async {
-    status = Status.editing;
+    status = Status.sync;
     notifyListeners();
 
     final content = controller.text;
@@ -85,18 +89,19 @@ class TaskEditViewModel extends ChangeNotifier {
 
     await _repo.update(task);
 
-    status = Status.edited;
+    status = Status.synced;
     notifyListeners();
   }
 
-  DateTime? get date => _date;
-  set date(DateTime? newDate) {
+  DateTime get date => _date ??= createDefaultDate();
+
+  set date(DateTime newDate) {
     _date = newDate;
     notifyListeners();
   }
 
-  TimeOfDay? get time => _time;
-  set time(TimeOfDay? newTime) {
+  TimeOfDay get time => _time ??= createDefaultTime();
+  set time(TimeOfDay newTime) {
     _time = newTime;
     notifyListeners();
   }
@@ -104,7 +109,7 @@ class TaskEditViewModel extends ChangeNotifier {
   bool get isCompleted => _isCompleted;
   set isCompleted(bool value) {
     _isCompleted = value;
-    notifyListeners();
+    editTask();
   }
 
   bool get needToRemind => _needToRemind;
@@ -115,8 +120,6 @@ class TaskEditViewModel extends ChangeNotifier {
 }
 
 enum Status {
-  fetching,
-  fetched,
-  editing,
-  edited,
+  sync,
+  synced,
 }

@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:get_it/get_it.dart';
-import 'package:reminder/domain/repositories/tasks.dart';
+import 'package:reminder/domain/repository/tasks.dart';
 
 class TaskIdGenerator {
   final _repo = GetIt.I.get<TasksRepo>();

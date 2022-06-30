@@ -1,5 +1,5 @@
 import 'package:reminder/data/entity/task.dart';
-import 'package:reminder/domain/entities/task.dart';
+import 'package:reminder/domain/entity/task.dart';
 
 class TaskMapper {
   static Task toTask(PlainTask plain) {

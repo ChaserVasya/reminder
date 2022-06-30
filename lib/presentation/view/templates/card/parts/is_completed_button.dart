@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:reminder/presentation/view_models/task_edit.dart';
+import 'package:reminder/presentation/view_model/task_edit.dart';
 
 class IsCompletedButton extends StatelessWidget {
   const IsCompletedButton({Key? key}) : super(key: key);

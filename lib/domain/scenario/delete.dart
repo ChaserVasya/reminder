@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:reminder/presentation/view_models/tasks.dart';
+import 'package:reminder/presentation/view_model/tasks.dart';
 
 Future<void> deleteTaskScenario(BuildContext context, int id) async {
   final viewModel = context.read<TasksViewModel>();

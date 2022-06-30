@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:reminder/application/injection.dart';
-import 'package:reminder/presentation/views/plug.dart';
+import 'package:reminder/presentation/view/plug.dart';
 
 class InitPage extends StatefulWidget {
   const InitPage({Key? key}) : super(key: key);

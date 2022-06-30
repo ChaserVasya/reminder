@@ -1,8 +1,8 @@
 import 'package:get_it/get_it.dart';
 import 'package:reminder/data/database/floor.dart';
 import 'package:reminder/data/mapper/task.dart';
-import 'package:reminder/domain/entities/task.dart';
-import 'package:reminder/domain/repositories/tasks.dart';
+import 'package:reminder/domain/entity/task.dart';
+import 'package:reminder/domain/repository/tasks.dart';
 
 import 'package:floor/floor.dart';
 

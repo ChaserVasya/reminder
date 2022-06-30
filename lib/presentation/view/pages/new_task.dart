@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:reminder/presentation/view_models/new_task.dart';
-import 'package:reminder/presentation/views/plug.dart';
+import 'package:reminder/application/error/show_exception_dialog.dart';
+import 'package:reminder/presentation/view/pages/templates/page_content_form.dart';
+import 'package:reminder/presentation/view_model/new_task.dart';
+import 'package:reminder/presentation/view/plug.dart';
 
 class NewTaskPage extends StatelessWidget {
   const NewTaskPage({Key? key}) : super(key: key);
@@ -14,27 +16,31 @@ class NewTaskPage extends StatelessWidget {
       builder: (context, _) {
         switch (context.watch<NewTaskViewModel>().status) {
           case Status.none:
-            return Scaffold(
-              appBar: AppBar(
-                title: const Text("Новая задача"),
-                actions: [
-                  TextButton(
-                    onPressed: context.read<NewTaskViewModel>().setTask,
-                    child: const Text("Создать"),
-                  )
-                ],
-              ),
-              body: Column(
-                children: const [
-                  ContentField(),
-                  DateTimeField(),
-                ],
+            return PageContentForm(
+              child: Scaffold(
+                appBar: AppBar(
+                  title: const Text("Новая задача"),
+                  actions: [
+                    TextButton(
+                      onPressed: () async {
+                        await context.read<NewTaskViewModel>().setTask();
+                        navigator.pop();
+                      },
+                      child: const Text("Создать"),
+                    )
+                  ],
+                ),
+                body: Column(
+                  children: const [
+                    ContentField(),
+                    DateTimeField(),
+                  ],
+                ),
               ),
             );
           case Status.setting:
             return const CircularProgressIndicator();
           case Status.setted:
-            () async => Navigator.pop(context);
             return const Plug();
         }
       },

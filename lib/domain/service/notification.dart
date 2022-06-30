@@ -1,5 +1,5 @@
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:reminder/domain/entities/task.dart';
+import 'package:reminder/domain/entity/task.dart';
 import 'package:timezone/timezone.dart';
 
 class NotificationService {

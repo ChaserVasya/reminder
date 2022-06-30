@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:reminder/data/utils/date_time.dart';
-import 'package:reminder/domain/entities/task.dart';
-import 'package:reminder/domain/repositories/tasks.dart';
-import 'package:reminder/domain/services/task_id_generator.dart';
+import 'package:reminder/domain/entity/task.dart';
+import 'package:reminder/domain/repository/tasks.dart';
+import 'package:reminder/domain/service/task_id_generator.dart';
 
 class NewTaskViewModel extends ChangeNotifier {
   final _repo = GetIt.I.get<TasksRepo>();

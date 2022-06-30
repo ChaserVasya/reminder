@@ -1,4 +1,4 @@
-import 'package:reminder/domain/entities/task.dart';
+import 'package:reminder/domain/entity/task.dart';
 
 abstract class TasksRepo {
   Future<List<Task>> getAll();
