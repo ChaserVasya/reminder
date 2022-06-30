@@ -9,16 +9,13 @@ class ErrorHandler {
   }
 
   static Future<void> onZoneError(Object e, [StackTrace? s]) async {
-    print("=======ERROR=======");
-    print(e);
-    print("=======/ERROR=======");
-    // final alert = switchExceptionAlert(e);
-    // showExceptionDialog(alert);
+    final alert = switchExceptionAlert(e);
+    showExceptionDialog(alert);
   }
 
   static Widget errorWidgetBuilder(FlutterErrorDetails details) {
     return const Center(
-      child: Text("Oops! Render error. Something went wrong"),
+      child: Text("Oops! Render error!"),
     );
   }
 }

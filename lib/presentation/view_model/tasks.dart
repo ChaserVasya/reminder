@@ -14,12 +14,15 @@ class TasksViewModel extends ChangeNotifier {
   }
 
   Future<void> set(Task task) async {
-    await _repo.insert(task);
-    notifyListeners();
+    if (tasks.map((e) => e.id).contains(task.id))
+      await _repo.update(task);
+    else
+      await _repo.insert(task);
+    await sync();
   }
 
   Future<void> delete(int id) async {
     await _repo.delete(tasks.singleWhere((e) => e.id == id));
-    notifyListeners();
+    await sync();
   }
 }

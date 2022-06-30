@@ -11,7 +11,7 @@ class NotificationService {
       '666',
       'noName',
       importance: Importance.max,
-      priority: Priority.high,
+      priority: Priority.max,
     ),
   );
 

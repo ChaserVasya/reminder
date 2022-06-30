@@ -1,7 +1,7 @@
-import 'package:reminder/presentation/view/init.dart';
-import 'package:reminder/presentation/view/pages/new_task.dart';
-import 'package:reminder/presentation/view/pages/task_edit.dart';
-import 'package:reminder/presentation/view/pages/tasks.dart';
+import 'package:reminder/presentation/view/page/init.dart';
+import 'package:reminder/presentation/view/page/new_task.dart';
+import 'package:reminder/presentation/view/page/task_edit.dart';
+import 'package:reminder/presentation/view/page/tasks.dart';
 
 final routes = {
   "/init": (_) => const InitPage(),
