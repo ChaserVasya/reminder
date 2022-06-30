@@ -50,9 +50,10 @@ class FloorTasksRepo implements TasksRepo {
       await _notifications.schedule(task);
     } else if (maybeNeedUpdateReminder) {
       final newPlainTask = TaskMapper.toPlainTask(task);
-      if (oldTask.reminder == newPlainTask.reminder) return;
-      await _notifications.delete(task);
-      await _notifications.schedule(task);
+      if (oldTask.reminder != newPlainTask.reminder) {
+        await _notifications.delete(task);
+        await _notifications.schedule(task);
+      }
     }
     await _db.taskDao.updateTask(TaskMapper.toPlainTask(task));
   }

@@ -46,13 +46,6 @@ class TaskList extends StatelessWidget {
   //TODO Selector doesnt see changes in list after sync
   @override
   Widget build(BuildContext context) {
-    // return Selector<TasksViewModel, List<Task>>(
-    //   selector: (_, viewModel) => viewModel.tasks,
-    //   builder: (_, tasks, __) => ListView.builder(
-    //     itemCount: tasks.length,
-    //     itemBuilder: (_, i) => TaskCard(tasks[i]),
-    //   ),
-    // );
     final tasks = context.watch<TasksViewModel>().tasks;
     return ListView.builder(
       itemCount: tasks.length,

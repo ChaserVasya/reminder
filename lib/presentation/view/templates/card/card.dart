@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
 import 'package:reminder/domain/entity/task.dart';
-import 'package:reminder/presentation/view_model/task_edit.dart';
-import 'package:reminder/presentation/view_model/tasks.dart';
 
 import 'parts/content.dart';
 import 'parts/is_completed_box.dart';

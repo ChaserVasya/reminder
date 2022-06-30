@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:reminder/application/error/show_exception_dialog.dart';
 import 'package:reminder/domain/scenario/delete.dart';
-import 'package:reminder/presentation/view_model/task_edit.dart';
 import 'package:reminder/presentation/view_model/tasks.dart';
 
 class ActionMenu extends StatelessWidget {
