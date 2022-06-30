@@ -15,7 +15,8 @@ class FloorTasksRepo implements TasksRepo {
   @override
   Future<void> delete(Task task) async {
     await _db.taskDao.deleteTask(TaskMapper.toPlainTask(task));
-    await _notifications.delete(task);
+
+    if (task.reminder != null) await _notifications.delete(task);
   }
 
   @override
@@ -32,13 +33,11 @@ class FloorTasksRepo implements TasksRepo {
   @override
   Future<void> insert(Task task) async {
     await _db.taskDao.insertTask(TaskMapper.toPlainTask(task));
-    await _notifications.schedule(task);
+    if (task.reminder != null) await _notifications.schedule(task);
   }
 
   @override
   Future<void> update(Task task) async {
-    await _db.taskDao.updateTask(TaskMapper.toPlainTask(task));
-
     final oldTask = (await _db.taskDao.findById(task.id))!;
 
     final needRemoveReminder = (oldTask.reminder != null) && (task.reminder == null);
@@ -55,5 +54,6 @@ class FloorTasksRepo implements TasksRepo {
       await _notifications.delete(task);
       await _notifications.schedule(task);
     }
+    await _db.taskDao.updateTask(TaskMapper.toPlainTask(task));
   }
 }
