@@ -11,8 +11,6 @@ abstract class TaskViewModel extends ChangeNotifier {
     Future(() => notifyListeners());
   }
 
-  set contentIsEmptySilently(bool value) => _contentIsEmpty = value;
-
   //IS COMPLETED
 
   bool _isCompleted = false;
@@ -21,8 +19,6 @@ abstract class TaskViewModel extends ChangeNotifier {
     _isCompleted = value;
     Future(() => notifyListeners());
   }
-
-  set isCompletedSilently(bool value) => _isCompleted = value;
 
   //DATETIME
 
@@ -37,8 +33,6 @@ abstract class TaskViewModel extends ChangeNotifier {
     Future(() => notifyListeners());
   }
 
-  set dateSilently(DateTime value) => _date = value;
-
   TimeOfDay? _time;
   TimeOfDay get time => _time ??= createDefaultTime();
   set time(TimeOfDay newTime) {
@@ -46,21 +40,12 @@ abstract class TaskViewModel extends ChangeNotifier {
     Future(() => notifyListeners());
   }
 
-  set timeSilently(TimeOfDay value) => _time = value;
-
   bool _needToRemind = false;
   bool get needToRemind => _needToRemind;
   set needToRemind(bool value) {
     _needToRemind = value;
     Future(() => notifyListeners());
   }
-
-  set needToRemindSilently(bool value) => _needToRemind = value;
-}
-
-enum TextStatus {
-  right,
-  wrong,
 }
 
 enum Status {

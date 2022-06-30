@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:reminder/presentation/view_model/tasks.dart';
-import 'package:reminder/presentation/view/plug.dart';
-import 'package:reminder/presentation/view/templates/card/card.dart';
+import 'package:reminder/presentation/view/element/plug.dart';
+import 'package:reminder/presentation/view/element/card/card.dart';
 
 import 'templates/page_content_form.dart';
 

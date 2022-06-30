@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:reminder/application/error/show_exception_dialog.dart';
-import 'package:reminder/presentation/view/pages/templates/page_content_form.dart';
-import 'package:reminder/presentation/view/templates/task_details/content_field.dart';
-import 'package:reminder/presentation/view/templates/task_details/date_time_field.dart';
-import 'package:reminder/presentation/view_model/new_task.dart';
-import 'package:reminder/presentation/view/plug.dart';
+import 'package:reminder/presentation/view/element/task_details/content_field.dart';
+import 'package:reminder/presentation/view/element/task_details/date_time_field.dart';
+import 'package:reminder/presentation/view/page/templates/page_content_form.dart';
+import 'package:reminder/presentation/view_model/task/new_task.dart';
+import 'package:reminder/presentation/view/element/plug.dart';
 import 'package:reminder/presentation/view_model/task.dart';
 import 'package:reminder/presentation/view_model/tasks.dart';
 
