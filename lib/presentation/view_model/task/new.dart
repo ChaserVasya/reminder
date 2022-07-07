@@ -11,7 +11,7 @@ class NewTaskViewModel extends TaskViewModel {
   Status status = Status.synced;
 
   Future<void> setTask() async {
-    status = Status.sync;
+    status = Status.syncing;
     notifyListeners();
 
     final id = await GetIt.I.get<TaskIdGenerator>().generate();
