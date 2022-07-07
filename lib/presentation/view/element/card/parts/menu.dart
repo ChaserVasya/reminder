@@ -30,7 +30,6 @@ class ActionMenu extends StatelessWidget {
           text: "Удалить",
           onPressed: () async {
             await deleteTaskScenario(tasksViewModel, id);
-            await tasksViewModel.sync();
           },
         ),
       ],

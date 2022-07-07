@@ -22,51 +22,46 @@ class TaskEditPage extends StatelessWidget {
       builder: (context, _) => FutureBuilder(
         future: context.read<TaskEditViewModel>().fetchTask(),
         builder: (context, snap) {
-          switch (snap.connectionState) {
-            case ConnectionState.active:
-            case ConnectionState.none:
-            case ConnectionState.waiting:
-              return const PagePlug();
-            case ConnectionState.done:
-              return Scaffold(
-                appBar: AppBar(
-                  title: const Text("Редактирование"),
-                  actions: [
-                    Builder(
-                      builder: (context) {
-                        final editViewModel = context.watch<TaskEditViewModel>();
-                        return TextButton(
-                          onPressed: (editViewModel.contentIsEmpty)
-                              ? null
-                              : () async {
-                                  final tasksViewModel = context.read<TasksViewModel>();
-                                  await editViewModel.editTask();
-                                  await tasksViewModel.sync();
-                                  navigator.pop();
-                                },
-                          child: Text(
-                            "Сохранить",
-                            style: TextStyle(
-                                color: (editViewModel.contentIsEmpty)
-                                    ? Colors.white54
-                                    : Theme.of(context).canvasColor),
-                          ),
-                        );
-                      },
-                    ),
-                  ],
+          if (snap.connectionState != ConnectionState.done) return const PagePlug();
+
+          return Scaffold(
+            appBar: AppBar(
+              title: const Text("Редактирование"),
+              actions: [
+                Builder(
+                  builder: (context) {
+                    final editViewModel = context.watch<TaskEditViewModel>();
+                    return TextButton(
+                      onPressed: (editViewModel.contentIsEmpty)
+                          ? null
+                          : () async {
+                              final tasksViewModel = context.read<TasksViewModel>();
+                              await editViewModel.editTask();
+                              await tasksViewModel.sync();
+                              navigator.pop();
+                            },
+                      child: Text(
+                        "Сохранить",
+                        style: TextStyle(
+                            color: (editViewModel.contentIsEmpty)
+                                ? Colors.white54
+                                : Theme.of(context).canvasColor),
+                      ),
+                    );
+                  },
                 ),
-                body: PageContentForm(
-                  child: Column(
-                    children: const [
-                      ContentField<TaskEditViewModel>(),
-                      IsCompletedBox<TaskEditViewModel>(),
-                      DateTimeField<TaskEditViewModel>(),
-                    ],
-                  ),
-                ),
-              );
-          }
+              ],
+            ),
+            body: PageContentForm(
+              child: Column(
+                children: const [
+                  ContentField<TaskEditViewModel>(),
+                  IsCompletedBox<TaskEditViewModel>(),
+                  DateTimeField<TaskEditViewModel>(),
+                ],
+              ),
+            ),
+          );
         },
       ),
     );

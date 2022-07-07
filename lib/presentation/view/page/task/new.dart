@@ -18,43 +18,41 @@ class NewTaskPage extends StatelessWidget {
       create: (_) => NewTaskViewModel(),
       builder: (context, _) {
         final createViewModel = context.watch<NewTaskViewModel>();
-        switch (createViewModel.status) {
-          case Status.sync:
-            return const PagePlug();
-          case Status.synced:
-            return Scaffold(
-              appBar: AppBar(
-                title: const Text("Новая задача"),
-                actions: [
-                  TextButton(
-                    onPressed: (createViewModel.contentIsEmpty)
-                        ? null
-                        : () async {
-                            final tasksViewModel = context.read<TasksViewModel>();
-                            await createViewModel.setTask();
-                            await tasksViewModel.sync();
-                            navigator.pop();
-                          },
-                    child: Text(
-                      "Создать",
-                      style: TextStyle(
-                          color: (createViewModel.contentIsEmpty)
-                              ? Colors.white54
-                              : Theme.of(context).canvasColor),
-                    ),
-                  ),
-                ],
-              ),
-              body: PageContentForm(
-                child: Column(
-                  children: const [
-                    ContentField<NewTaskViewModel>(),
-                    DateTimeField<NewTaskViewModel>(),
-                  ],
+
+        if (createViewModel.status == Status.syncing) return const PagePlug();
+
+        return Scaffold(
+          appBar: AppBar(
+            title: const Text("Новая задача"),
+            actions: [
+              TextButton(
+                onPressed: (createViewModel.contentIsEmpty)
+                    ? null
+                    : () async {
+                        final tasksViewModel = context.read<TasksViewModel>();
+                        await createViewModel.setTask();
+                        await tasksViewModel.sync();
+                        navigator.pop();
+                      },
+                child: Text(
+                  "Создать",
+                  style: TextStyle(
+                      color: (createViewModel.contentIsEmpty)
+                          ? Colors.white54
+                          : Theme.of(context).canvasColor),
                 ),
               ),
-            );
-        }
+            ],
+          ),
+          body: PageContentForm(
+            child: Column(
+              children: const [
+                ContentField<NewTaskViewModel>(),
+                DateTimeField<NewTaskViewModel>(),
+              ],
+            ),
+          ),
+        );
       },
     );
   }

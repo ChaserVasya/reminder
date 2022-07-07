@@ -10,16 +10,13 @@ class TaskEditViewModel extends TaskViewModel {
   final _repo = GetIt.I.get<TasksRepo>();
   late final int id;
 
-  TaskEditViewModel(this.id);
+  TaskEditViewModel(this.id) {
+    fetching = fetchTask();
+  }
 
-  Status status = Status.sync;
+  late Future<void> fetching;
 
   Future<void> fetchTask() async {
-    await Future.value(); //TODO check how to do ALL function asyncly.
-
-    status = Status.sync;
-    notifyListeners();
-
     final task = await _repo.get(id);
 
     controller = TextEditingController(text: task.content);
@@ -35,15 +32,9 @@ class TaskEditViewModel extends TaskViewModel {
       time = TimeOfDay.fromDateTime(dateTime);
       date = DateTime(dateTime.year, dateTime.month, dateTime.day);
     }
-
-    status = Status.synced;
-    notifyListeners();
   }
 
   Future<void> editTask() async {
-    status = Status.sync;
-    notifyListeners();
-
     final content = controller.text;
 
     if (content == "") {
@@ -56,13 +47,5 @@ class TaskEditViewModel extends TaskViewModel {
     final task = Task(id, content, reminder, isCompleted);
 
     await _repo.update(task);
-
-    status = Status.synced;
-    notifyListeners();
   }
-}
-
-enum Status {
-  sync,
-  synced,
 }

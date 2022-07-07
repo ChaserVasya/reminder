@@ -49,6 +49,6 @@ abstract class TaskViewModel extends ChangeNotifier {
 }
 
 enum Status {
-  sync,
+  syncing,
   synced,
 }

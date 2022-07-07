@@ -19,15 +19,14 @@ class TaskCardListened extends StatelessWidget {
       create: (_) => TaskEditViewModel(id),
       builder: (context, __) {
         return FutureBuilder(
-          future: context.read<TaskEditViewModel>().fetchTask(),
+          future: context.read<TaskEditViewModel>().fetching,
           builder: (context, snap) {
             final viewModel = context.watch<TaskEditViewModel>();
 
-            if (viewModel.status == Status.sync) return const ElementPlug();
-            print("card id $id");
+            if (snap.connectionState != ConnectionState.done) return const ElementPlug();
+
             Widget widget = Row(
-              children: [
-                Text(id.toString()),
+              children: const [
                 IsCompletedBox(),
                 CardContent(),
                 Spacer(),
