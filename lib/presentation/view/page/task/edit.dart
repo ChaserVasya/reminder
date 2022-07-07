@@ -4,11 +4,11 @@ import 'package:reminder/application/error/show_exception_dialog.dart';
 import 'package:reminder/presentation/view/element/task_details/content_field.dart';
 import 'package:reminder/presentation/view/element/task_details/date_time_field.dart';
 import 'package:reminder/presentation/view/element/task_details/is_completed_box.dart';
-import 'package:reminder/presentation/view_model/task/task_edit.dart';
-import 'package:reminder/presentation/view/element/plug.dart';
+import 'package:reminder/presentation/view_model/task/edit.dart';
+import 'package:reminder/presentation/view/element/plug/page.dart';
 import 'package:reminder/presentation/view_model/tasks.dart';
 
-import 'templates/page_content_form.dart';
+import '../templates/page_content_form.dart';
 
 class TaskEditPage extends StatelessWidget {
   const TaskEditPage({Key? key}) : super(key: key);
@@ -26,7 +26,7 @@ class TaskEditPage extends StatelessWidget {
             case ConnectionState.active:
             case ConnectionState.none:
             case ConnectionState.waiting:
-              return const Plug();
+              return const PagePlug();
             case ConnectionState.done:
               return Scaffold(
                 appBar: AppBar(

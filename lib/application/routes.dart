@@ -1,6 +1,6 @@
 import 'package:reminder/presentation/view/page/init.dart';
-import 'package:reminder/presentation/view/page/new_task.dart';
-import 'package:reminder/presentation/view/page/task_edit.dart';
+import 'package:reminder/presentation/view/page/task/new.dart';
+import 'package:reminder/presentation/view/page/task/edit.dart';
 import 'package:reminder/presentation/view/page/tasks.dart';
 
 final routes = {

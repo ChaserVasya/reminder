@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:reminder/presentation/view/element/card/card_listened.dart';
+import 'package:reminder/presentation/view/element/plug/element.dart';
 import 'package:reminder/presentation/view_model/tasks.dart';
-import 'package:reminder/presentation/view/element/plug.dart';
+import 'package:reminder/presentation/view/element/plug/page.dart';
 import 'package:reminder/presentation/view/element/card/card.dart';
 
 import 'templates/page_content_form.dart';
@@ -29,7 +31,7 @@ class TasksPage extends StatelessWidget {
               case ConnectionState.none:
               case ConnectionState.waiting:
               case ConnectionState.active:
-                return const Plug();
+                return const ElementPlug();
               case ConnectionState.done:
                 return const TaskList();
             }
@@ -47,9 +49,10 @@ class TaskList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final tasks = context.watch<TasksViewModel>().tasks;
+    print("build list: ${tasks.map((e) => e.id)}");
     return ListView.builder(
       itemCount: tasks.length,
-      itemBuilder: (_, i) => TaskCard(tasks[i]),
+      itemBuilder: (_, i) => TaskCardListened(tasks[i].id),
     );
   }
 }
