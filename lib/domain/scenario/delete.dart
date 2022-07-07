@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:reminder/application/error/show_exception_dialog.dart';
+import 'package:reminder/application/navigator.dart';
 import 'package:reminder/presentation/view_model/tasks.dart';
 
 Future<void> deleteTaskScenario(TasksViewModel tasksViewModel, int id) async {

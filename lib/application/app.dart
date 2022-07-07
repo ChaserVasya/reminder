@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:reminder/application/navigator.dart';
 import 'package:reminder/presentation/view_model/tasks.dart';
 
 import 'error/error_handler.dart';
-import 'error/show_exception_dialog.dart';
 import 'routes.dart';
 
 class App extends StatelessWidget {

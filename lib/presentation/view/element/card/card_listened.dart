@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:reminder/application/error/show_exception_dialog.dart';
+import 'package:reminder/application/navigator.dart';
 import 'package:reminder/data/utils/date_time.dart';
 import 'package:reminder/domain/scenario/delete.dart';
 import 'package:reminder/presentation/view/element/plug/element.dart';
