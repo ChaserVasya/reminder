@@ -25,14 +25,9 @@ class TasksPage extends StatelessWidget {
         child: FutureBuilder(
           future: context.read<TasksViewModel>().sync(),
           builder: (_, snap) {
-            switch (snap.connectionState) {
-              case ConnectionState.none:
-              case ConnectionState.waiting:
-              case ConnectionState.active:
-                return const ElementPlug();
-              case ConnectionState.done:
-                return const TaskList();
-            }
+            if (snap.connectionState != ConnectionState.done) return const ElementPlug();
+
+            return const TaskList();
           },
         ),
       ),
