@@ -3,9 +3,14 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:reminder/presentation/view_model/task.dart';
 
-class DateTimeField<T extends TaskViewModel> extends StatelessWidget {
+class DateTimeField<T extends TaskViewModel> extends StatefulWidget {
   const DateTimeField({Key? key}) : super(key: key);
 
+  @override
+  State<DateTimeField<T>> createState() => _DateTimeFieldState<T>();
+}
+
+class _DateTimeFieldState<T extends TaskViewModel> extends State<DateTimeField<T>> {
   @override
   Widget build(BuildContext context) {
     final viewModel = context.watch<T>();

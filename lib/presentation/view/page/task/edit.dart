@@ -20,7 +20,7 @@ class TaskEditPage extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (_) => TaskEditViewModel(id),
       builder: (context, _) => FutureBuilder(
-        future: context.read<TaskEditViewModel>().fetchTask(),
+        future: context.read<TaskEditViewModel>().fetching,
         builder: (context, snap) {
           if (snap.connectionState != ConnectionState.done) return const PagePlug();
 

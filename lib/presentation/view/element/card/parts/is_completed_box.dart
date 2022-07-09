@@ -1,30 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:reminder/domain/entity/task.dart';
-import 'package:reminder/presentation/view_model/tasks.dart';
+import 'package:reminder/presentation/view_model/task/edit.dart';
 
 class IsCompletedBox extends StatelessWidget {
-  const IsCompletedBox(this.id, {Key? key}) : super(key: key);
-
-  final int id;
+  const IsCompletedBox({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final viewModel = context.watch<TasksViewModel>();
-
-    final task = viewModel.tasks.singleWhere((e) => e.id == id);
+    final viewModel = context.watch<TaskEditViewModel>();
 
     return Checkbox(
-      value: task.isCompleted,
+      value: viewModel.isCompleted,
       onChanged: (value) async {
-        final changedTask = Task.named(
-          id: task.id,
-          content: task.content,
-          isCompleted: value!,
-          reminder: task.reminder,
-        );
-
-        await viewModel.set(changedTask);
+        viewModel.isCompleted = value!;
+        await viewModel.editTask();
       },
     );
   }

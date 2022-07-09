@@ -5,24 +5,24 @@ import 'package:reminder/domain/entity/task.dart';
 import 'package:reminder/domain/repository/tasks.dart';
 import 'package:reminder/presentation/view_model/task.dart';
 
-// TODO can I notifyListeners from constructor? Several times?
 class TaskEditViewModel extends TaskViewModel {
   final _repo = GetIt.I.get<TasksRepo>();
-  late final int id;
+  late int id;
 
   TaskEditViewModel(this.id) {
-    fetching = fetchTask();
+    fetching = fetchTask(id);
   }
 
   late Future<void> fetching;
 
-  Future<void> fetchTask() async {
+  Future<void> fetchTask(int newId) async {
+    id = newId;
+
     final task = await _repo.get(id);
 
-    controller = TextEditingController(text: task.content);
-    controller.addListener(() => Future(notifyListeners));
+    controller.text = task.content;
 
-    contentIsEmpty = task.content == "";
+    contentIsEmpty = task.content.isEmpty;
     isCompleted = task.isCompleted;
 
     final dateTime = task.reminder;
@@ -32,19 +32,17 @@ class TaskEditViewModel extends TaskViewModel {
       time = TimeOfDay.fromDateTime(dateTime);
       date = DateTime(dateTime.year, dateTime.month, dateTime.day);
     }
+
+    notifyListeners();
   }
 
   Future<void> editTask() async {
-    final content = controller.text;
+    DateTime? reminder;
 
-    if (content == "") {
-      contentIsEmpty = true;
-      return;
-    }
+    if (needToRemind)
+      reminder = DateTimeUtils.toNearestNotifiable(DateTimeFactory.from(date, time));
 
-    var reminder =
-        (needToRemind) ? DateTimeUtils.toNearestNotifiable(DateTimeFactory.from(date, time)) : null;
-    final task = Task(id, content, reminder, isCompleted);
+    final task = Task(id, controller.text, reminder, isCompleted);
 
     await _repo.update(task);
   }

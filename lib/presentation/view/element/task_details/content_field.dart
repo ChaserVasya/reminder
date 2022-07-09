@@ -21,15 +21,7 @@ class ContentField<T extends TaskViewModel> extends StatelessWidget {
           ),
           child: TextFormField(
             autovalidateMode: AutovalidateMode.onUserInteraction,
-            validator: (str) {
-              final isEmpty = (str == null) || (str == "");
-              if (isEmpty) {
-                viewModel.contentIsEmpty = true;
-                return "Введите текст!";
-              } else
-                viewModel.contentIsEmpty = false;
-              return null;
-            },
+            validator: (str) => (str!.isEmpty) ? "Введите текст!" : null,
             controller: viewModel.controller,
             keyboardType: TextInputType.multiline,
             maxLines: null,

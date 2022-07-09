@@ -1,44 +1,61 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import 'package:reminder/domain/entity/task.dart';
+import 'package:provider/provider.dart';
+import 'package:reminder/presentation/view/element/plug/element.dart';
+import 'package:reminder/presentation/view_model/task/edit.dart';
 
 import 'parts/content.dart';
 import 'parts/is_completed_box.dart';
 import 'parts/menu.dart';
+import 'parts/remind_text.dart';
 
-class TaskCard extends StatelessWidget {
-  const TaskCard(this.task, {Key? key}) : super(key: key);
+class TaskCard extends StatefulWidget {
+  const TaskCard(this.id, {Key? key}) : super(key: key);
 
-  final Task task;
+  final int id;
+
+  @override
+  State<TaskCard> createState() => _TaskCardState();
+}
+
+class _TaskCardState extends State<TaskCard> {
+  late final viewModel = TaskEditViewModel(widget.id);
 
   @override
   Widget build(BuildContext context) {
-    Widget widget = Row(
-      children: [
-        IsCompletedBox(task.id),
-        CardContent(task.content),
-        const Spacer(),
-        ActionMenu(task.id),
-      ],
+    viewModel.fetching = viewModel.fetchTask(widget.id);
+    return ChangeNotifierProvider<TaskEditViewModel>(
+      create: (_) => viewModel,
+      builder: (context, __) {
+        return FutureBuilder(
+          future: context.watch<TaskEditViewModel>().fetching,
+          builder: (context, snap) {
+            final viewModel = context.watch<TaskEditViewModel>();
+
+            if (snap.connectionState != ConnectionState.done) return const ElementPlug();
+
+            Widget widget = Row(
+              children: const [
+                IsCompletedBox(),
+                CardContent(),
+                Spacer(),
+                ActionMenu(),
+              ],
+            );
+
+            if (viewModel.needToRemind) {
+              widget = Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  widget,
+                  const RemindText(),
+                ],
+              );
+            }
+
+            return Card(child: widget);
+          },
+        );
+      },
     );
-
-    if (task.reminder != null) {
-      final dateText = DateFormat.yMd().add_Hm().format(task.reminder!.toLocal());
-      widget = Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          widget,
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              "Напоминание: $dateText",
-              style: const TextStyle(color: Colors.black54),
-            ),
-          ),
-        ],
-      );
-    }
-
-    return Card(child: widget);
   }
 }
