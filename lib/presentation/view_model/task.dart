@@ -3,12 +3,18 @@ import 'package:flutter/material.dart';
 abstract class TaskViewModel extends ChangeNotifier {
   //CONTENT
 
-  TextEditingController controller = TextEditingController();
-  bool _contentIsEmpty = true;
+  static const _initText = "";
+
+  void _validate() {
+    contentIsEmpty = controller.text.isEmpty;
+  }
+
+  late final controller = TextEditingController(text: _initText)..addListener(_validate);
+  bool _contentIsEmpty = _initText.isEmpty;
   bool get contentIsEmpty => _contentIsEmpty;
   set contentIsEmpty(bool value) {
     _contentIsEmpty = value;
-    Future(() => notifyListeners());
+    notifyListeners();
   }
 
   //IS COMPLETED
@@ -17,7 +23,7 @@ abstract class TaskViewModel extends ChangeNotifier {
   bool get isCompleted => _isCompleted;
   set isCompleted(bool value) {
     _isCompleted = value;
-    Future(() => notifyListeners());
+    notifyListeners();
   }
 
   //DATETIME
@@ -37,14 +43,14 @@ abstract class TaskViewModel extends ChangeNotifier {
   TimeOfDay get time => _time ??= createDefaultTime();
   set time(TimeOfDay newTime) {
     _time = newTime;
-    Future(() => notifyListeners());
+    notifyListeners();
   }
 
   bool _needToRemind = false;
   bool get needToRemind => _needToRemind;
   set needToRemind(bool value) {
     _needToRemind = value;
-    Future(() => notifyListeners());
+    notifyListeners();
   }
 }
 

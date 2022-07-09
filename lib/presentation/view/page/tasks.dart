@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:reminder/presentation/view/element/card/card_listened.dart';
+import 'package:reminder/presentation/view/element/card/card.dart';
 import 'package:reminder/presentation/view/element/plug/element.dart';
 import 'package:reminder/presentation/view_model/tasks.dart';
 
@@ -44,7 +44,7 @@ class TaskList extends StatelessWidget {
     final tasks = context.watch<TasksViewModel>().tasks;
     return ListView.builder(
       itemCount: tasks.length,
-      itemBuilder: (_, i) => TaskCardListened(tasks[i].id),
+      itemBuilder: (_, i) => TaskCard(tasks[i].id),
     );
   }
 }

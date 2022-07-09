@@ -5,9 +5,9 @@ import 'package:reminder/domain/service/notification.dart';
 import 'package:reminder/domain/repository/tasks.dart';
 import 'package:reminder/domain/service/task_id_generator.dart';
 
-final getIt = GetIt.instance;
-
 Future<void> inject() async {
+  final getIt = GetIt.instance;
+
   getIt.registerSingleton<NotificationService>(
     NotificationService(),
   );

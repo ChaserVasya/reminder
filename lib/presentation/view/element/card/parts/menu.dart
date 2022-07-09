@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:reminder/application/navigator.dart';
 import 'package:reminder/domain/scenario/delete.dart';
+import 'package:reminder/presentation/view_model/task/edit.dart';
 import 'package:reminder/presentation/view_model/tasks.dart';
 
 class ActionMenu extends StatelessWidget {
-  const ActionMenu(this.id, {Key? key}) : super(key: key);
-
-  final int id;
+  const ActionMenu({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final tasksViewModel = context.read<TasksViewModel>();
+    final viewModel = context.watch<TaskEditViewModel>();
+    final tasksViewModel = context.watch<TasksViewModel>();
 
     return PopupMenuButton(
       itemBuilder: (context) => [
@@ -19,9 +19,7 @@ class ActionMenu extends StatelessWidget {
           iconData: Icons.edit,
           text: "Редактировать",
           onPressed: () {
-            //TODO Page cannot be pushed without [addPostFrameCallback]. Why?
-            final callback = (_) =>
-                navigator.pushNamed("/task_edit", arguments: id).then((_) => tasksViewModel.sync());
+            final callback = (_) => navigator.pushNamed("/task_edit", arguments: viewModel.id);
             WidgetsBinding.instance.addPostFrameCallback(callback);
           },
         ),
@@ -29,7 +27,7 @@ class ActionMenu extends StatelessWidget {
           iconData: Icons.delete,
           text: "Удалить",
           onPressed: () async {
-            await deleteTaskScenario(tasksViewModel, id);
+            await deleteTaskScenario(tasksViewModel, viewModel.id);
           },
         ),
       ],
